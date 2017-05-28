@@ -1,7 +1,7 @@
 import pymel.core as pm
 import pymel.core.datatypes as dt
 
-
+# Maya Hotkey Collection
 # --------------------------------------------------------------------------------------#
 # set a key at the midpoint between two selected keys
 """
@@ -379,3 +379,51 @@ def key_one_past_range():
     cycle_start = pm.playbackOptions(query=True, minTime=True)
     cycle_end = pm.playbackOptions(query=True, maxTime=True) + 1.0
     pm.setKeyframe(time=[cycle_start, cycle_end])
+
+# --------------------------------------------------------------------------------------#
+# set playback range start to current frame
+"""
+import el_hotkeys
+reload(el_hotkeys)
+el_hotkeys.range_start_at_current()
+"""
+
+def range_start_at_current():
+    current_frame = pm.currentTime(q=True)
+    pm.playbackOptions(min=current_frame)
+
+# --------------------------------------------------------------------------------------#
+# set playback range end to current frame
+"""
+import el_hotkeys
+reload(el_hotkeys)
+el_hotkeys.range_end_at_current()
+"""
+
+def range_end_at_current():
+    current_frame = pm.currentTime(q=True)
+    pm.playbackOptions(min=current_frame)
+
+# --------------------------------------------------------------------------------------#
+# set playback range start to range minimum value
+"""
+import el_hotkeys
+reload(el_hotkeys)
+el_hotkeys.range_start_at_min()
+"""
+
+def range_start_at_min():
+    range_start = pm.playbackOptions(q=True, animationStartTime=True)
+    pm.playbackOptions(min=range_start)
+
+# --------------------------------------------------------------------------------------#
+# set playback range end to range maximum value
+"""
+import el_hotkeys
+reload(el_hotkeys)
+el_hotkeys.range_start_at_max()
+"""
+
+def range_start_at_max():
+    range_start = pm.playbackOptions(q=True, animationEndTime=True)
+    pm.playbackOptions(max=range_start)
