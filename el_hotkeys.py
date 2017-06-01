@@ -427,3 +427,22 @@ el_hotkeys.range_start_at_max()
 def range_start_at_max():
     range_start = pm.playbackOptions(q=True, animationEndTime=True)
     pm.playbackOptions(max=range_start)
+
+# --------------------------------------------------------------------------------------#
+# flip between start/end frames to compare cycle start/end poses
+"""
+import el_hotkeys
+reload(el_hotkeys)
+el_hotkeys.flip_between_start_end()
+"""
+
+
+def flip_between_start_end():
+    range_start = pm.playbackOptions(q=True, min=True)
+    range_end = pm.playbackOptions(q=True, max=True)
+    current_frame = pm.currentTime(q=True)
+
+    if current_frame != range_end or current_frame != range_start:
+        pm.currentTime(range_start, e=True)
+    if current_frame == range_start:
+        pm.currentTime(range_end, e=True)
