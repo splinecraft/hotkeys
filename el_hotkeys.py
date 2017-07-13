@@ -1,5 +1,6 @@
 import pymel.core as pm
 import pymel.core.datatypes as dt
+import random
 
 # Maya Hotkey Collection
 # --------------------------------------------------------------------------------------#
@@ -9,6 +10,7 @@ import el_hotkeys
 reload(el_hotkeys)
 el_hotkeys.keyframe_midpoint()
 """
+
 
 def keyframe_midpoint():
     # sets a key halfway between selected keys
@@ -38,6 +40,7 @@ reload(el_hotkeys)
 el_hotkeys.select_out_tangents()
 """
 
+
 def select_out_tangents():
     # select out tangents of current selected keys
     curvelist = pm.keyframe(q=True, sl=True, name=True)
@@ -47,11 +50,13 @@ def select_out_tangents():
         for i in range(len(sel_keys)):
             pm.selectKey(curve, time=(sel_keys[i],), outTangent=True, add=True)
 
+
 """
 import el_hotkeys
 reload(el_hotkeys)
 el_hotkeys.select_in_tangents()
 """
+
 
 # select in tangents
 def select_in_tangents():
@@ -72,6 +77,7 @@ reload(el_hotkeys)
 el_hotkeys.get_selection_frame_value_length()
 """
 
+
 def get_selection_frame_value_length():
     # Print the frame and value length of selected keys on a single curve
     import pymel.core as pm
@@ -83,8 +89,8 @@ def get_selection_frame_value_length():
         v_keys = pm.keyframe(q=True, selected=True, vc=True)
 
         if len(l_keys) > 1:  # at least 2 keys selected
-            key_length = abs(l_keys[-1] - l_keys[0])	# frame length
-            key_value = abs(max(v_keys) - min(v_keys))	# value range
+            key_length = abs(l_keys[-1] - l_keys[0])  # frame length
+            key_value = abs(max(v_keys) - min(v_keys))  # value range
             print ("frame length:  {}, value range:  {:.3f}".format(key_length, key_value)),
         else:
             pm.warning('Need to select at least 2 keys'),
@@ -100,6 +106,7 @@ reload(el_hotkeys)
 el_hotkeys.make_flat_tangents()
 """
 
+
 def make_flat_tangents():
     pm.keyTangent(edit=True, itt='flat', ott='flat')
 
@@ -111,6 +118,7 @@ import el_hotkeys
 reload(el_hotkeys)
 el_hotkeys.make_spline_tangents()
 """
+
 
 def make_spline_tangents():
     pm.keyTangent(edit=True, itt='spline', ott='spline')
@@ -124,14 +132,17 @@ reload(el_hotkeys)
 el_hotkeys.sharpen_in_tangent()
 """
 
+
 def sharpen_in_tangent():
     pm.keyTangent(edit=True, weightLock=False, lock=False, inWeight=.01)
+
 
 """
 import el_hotkeys
 reload(el_hotkeys)
 el_hotkeys.sharpen_out_tangent()
 """
+
 
 # sharpen out tangent
 def sharpen_out_tangent():
@@ -145,6 +156,7 @@ import el_hotkeys
 reload(el_hotkeys)
 el_hotkeys.infinity_toggle()
 """
+
 
 def infinity_toggle():
     if pm.animCurveEditor('graphEditor1GraphEd', exists=True):
@@ -165,6 +177,7 @@ reload(el_hotkeys)
 el_hotkeys.paste_keys_insert()
 """
 
+
 def paste_keys_insert():
     current_frame = pm.getCurrentTime()
     pm.pasteKey(option='insert', connect=True, time=(current_frame,))
@@ -177,6 +190,7 @@ reload(el_hotkeys)
 el_hotkeys.paste_keys_replace()
 """
 
+
 def paste_keys_replace():
     pm.pasteKey(option='replaceCompletely')
 
@@ -188,6 +202,7 @@ reload(el_hotkeys)
 el_hotkeys.paste_keys_connect()
 """
 
+
 def paste_keys_connect():
     pm.pasteKey(option='replace', connect=True)
 
@@ -198,6 +213,7 @@ import el_hotkeys
 reload(el_hotkeys)
 el_hotkeys.paste_keys_merge()
 """
+
 
 def paste_keys_merge():
     current_frame = pm.getCurrentTime()
@@ -212,6 +228,7 @@ reload(el_hotkeys)
 el_hotkeys.show_only_polygons()
 """
 
+
 def show_only_polygons():
     active_view = pm.getPanel(withFocus=True)
     pm.modelEditor(active_view, edit=True, allObjects=False)
@@ -225,6 +242,7 @@ import el_hotkeys
 reload(el_hotkeys)
 el_hotkeys.toggle_nurbs_curves()
 """
+
 
 def toggle_nurbs_curves():
     active_view = pm.getPanel(withFocus=True)
@@ -241,6 +259,7 @@ import el_hotkeys
 reload(el_hotkeys)
 el_hotkeys.swap_two_curves()
 """
+
 
 def swap_two_curves():
     curves = pm.keyframe(q=True, selected=True, name=True)
@@ -274,6 +293,7 @@ reload(el_hotkeys)
 el_hotkeys.apply_euler_filter()
 """
 
+
 def apply_euler_filter():
     pm.filterCurve()
 
@@ -286,6 +306,7 @@ import el_hotkeys
 reload(el_hotkeys)
 el_hotkeys.shift_curves(amount=1) 
 """
+
 
 def shift_curves(amount=1):
     curves = pm.findKeyframe(curve=True)
@@ -302,6 +323,7 @@ import el_hotkeys
 reload(el_hotkeys)
 el_hotkeys.get_distance_between_two_objects()
 """
+
 
 def get_distance_between_two_objects():
     # use rotation pivot to get the position since frozen transforms will affect
@@ -341,6 +363,7 @@ reload(el_hotkeys)
 el_hotkeys.key_delete(all_keys=False, only_before=False)
 """
 
+
 def key_delete(all_keys=True, only_before=False):
     current_frame = pm.getCurrentTime()
     curves = pm.findKeyframe(curve=True)
@@ -375,10 +398,12 @@ reload(el_hotkeys)
 el_hotkeys.key_one_past_range()
 """
 
+
 def key_one_past_range():
     cycle_start = pm.playbackOptions(query=True, minTime=True)
     cycle_end = pm.playbackOptions(query=True, maxTime=True) + 1.0
     pm.setKeyframe(time=[cycle_start, cycle_end])
+
 
 # --------------------------------------------------------------------------------------#
 # set playback range start to current frame
@@ -388,9 +413,11 @@ reload(el_hotkeys)
 el_hotkeys.range_start_at_current()
 """
 
+
 def range_start_at_current():
     current_frame = pm.currentTime(q=True)
     pm.playbackOptions(min=current_frame)
+
 
 # --------------------------------------------------------------------------------------#
 # set playback range end to current frame
@@ -400,9 +427,11 @@ reload(el_hotkeys)
 el_hotkeys.range_end_at_current()
 """
 
+
 def range_end_at_current():
     current_frame = pm.currentTime(q=True)
     pm.playbackOptions(min=current_frame)
+
 
 # --------------------------------------------------------------------------------------#
 # set playback range start to range minimum value
@@ -412,9 +441,11 @@ reload(el_hotkeys)
 el_hotkeys.range_start_at_min()
 """
 
+
 def range_start_at_min():
     range_start = pm.playbackOptions(q=True, animationStartTime=True)
     pm.playbackOptions(min=range_start)
+
 
 # --------------------------------------------------------------------------------------#
 # set playback range end to range maximum value
@@ -424,9 +455,11 @@ reload(el_hotkeys)
 el_hotkeys.range_start_at_max()
 """
 
+
 def range_start_at_max():
     range_start = pm.playbackOptions(q=True, animationEndTime=True)
     pm.playbackOptions(max=range_start)
+
 
 # --------------------------------------------------------------------------------------#
 # flip between start/end frames to compare cycle start/end poses
@@ -446,3 +479,95 @@ def flip_between_start_end():
         pm.currentTime(range_start, e=True)
     if current_frame == range_start:
         pm.currentTime(range_end, e=True)
+
+
+# --------------------------------------------------------------------------------------#
+# mute/unmute translateZ channel on selected control (for run cycles to save having to select)
+"""
+import el_hotkeys
+reload(el_hotkeys)
+el_hotkeys.mute_tz_toggle()
+"""
+
+
+def mute_tz_toggle():
+
+    def get_main_ctrl():
+        namespaces = pm.namespaceInfo(lon=True)
+        name = ''
+        for ns in namespaces:
+            if len(ns) == 2 and ns != 'UI':
+                name = ns
+        return name + ':Main'
+
+    main_ctrl = get_main_ctrl()
+
+    try:
+        if pm.mute('%s.translateZ' % main_ctrl, query=True):
+            pm.mute('%s.translateZ' % main_ctrl, disable=True)
+        else:
+            pm.mute('%s.translateZ' % main_ctrl)
+    except IndexError:
+        pm.warning('Nothing selected to mute.'),
+
+"""
+def mute_tz_toggle():
+    mutist = pm.ls(sl=True)
+
+    try:
+        if pm.mute('%s.translateZ' % mutist[0], query=True):
+            pm.mute('%s.translateZ' % mutist[0], disable=True)
+        else:
+            pm.mute('%s.translateZ' % mutist[0])
+    except IndexError:
+        pm.warning('Nothing selected to mute.'),
+"""
+
+# --------------------------------------------------------------------------------------#
+# mute/unmute selected channel box channels on all selected controls
+"""
+import el_hotkeys
+reload(el_hotkeys)
+el_hotkeys.mute_toggle()
+"""
+
+
+def mute_toggle():
+    selection = pm.ls(sl=True)
+    channels = pm.channelBox('mainChannelBox', q=True, selectedMainAttributes=True)
+
+    for sel in selection:
+        for channel in channels:
+            if pm.mute('{}.{}'.format(sel.name(), channel), query=True):
+                pm.mute('{}.{}'.format(sel.name(), channel), disable=True)
+            else:
+                pm.mute('{}.{}'.format(sel.name(), channel))
+
+
+# --------------------------------------------------------------------------------------#
+# nudge selected key values by randomized amounts within the defined range
+"""
+import el_hotkeys
+reload(el_hotkeys)
+el_hotkeys.nudge_keys(nudge_amt=0.07, default_val_range=1.0, force_default_val_range=False)
+"""
+
+
+def nudge_keys(nudge_amt=0.07, default_val_range=1.0, force_default_val_range=False):
+    curves = pm.keyframe(q=True, sl=True, name=True)
+
+    for curve in curves:
+        key_vals = pm.keyframe(curve, q=True, sl=True, vc=True)
+        key_times = pm.keyframe(curve, q=True, sl=True, tc=True)
+
+        if not force_default_val_range:
+            val_range = abs(max(key_vals) - min(key_vals))
+
+            if val_range < 1:
+                val_range = default_val_range
+        else:
+            val_range = default_val_range
+
+        for t, v in zip(key_times, key_vals):
+            val = random.uniform(val_range * .01, val_range * nudge_amt)
+            pm.keyframe(curve, e=True, vc=val * random.choice([-1, 1]), r=True, time=(t,))
