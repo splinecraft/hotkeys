@@ -1,6 +1,7 @@
 import pymel.core as pm
 import pymel.core.datatypes as dt
 import random
+from el_anim_utilities import anim_util as anim
 
 # Maya Hotkey Collection
 # --------------------------------------------------------------------------------------#
@@ -571,3 +572,36 @@ def nudge_keys(nudge_amt=0.07, default_val_range=1.0, force_default_val_range=Fa
         for t, v in zip(key_times, key_vals):
             val = random.uniform(val_range * .01, val_range * nudge_amt)
             pm.keyframe(curve, e=True, vc=val * random.choice([-1, 1]), r=True, time=(t,))
+
+
+# --------------------------------------------------------------------------------------#
+# Swaps the values of 2 selected keys per curve
+"""
+import el_hotkeys
+reload(el_hotkeys)
+el_hotkeys.swap_keys()
+"""
+
+
+def swap_keys():
+    curves = pm.keyframe(q=True, sl=True, name=True)
+
+    if len(curves) > 0:
+        keys = {}
+
+        for curve in curves:
+            key_times = pm.keyframe(curve, q=True, sl=True, tc=True)
+
+            if len(key_times) == 2:
+                keys[curve] = key_times
+            else:
+                pm.warning('[swap_keys] Select only 2 keys per curve to swap on {}'.format(curve))
+
+        for k, v in keys.iteritems():
+            value_a = pm.keyframe(k, q=True, time=(v[0],), vc=True)[0]
+            value_b = pm.keyframe(k, q=True, time=(v[1],), vc=True)[0]
+
+            for key, new_val in zip(v, (value_b, value_a)):
+                pm.keyframe(k, edit=True, time=(key,), vc=new_val)
+    else:
+        pm.warning('[swap_keys] Select at least 2 keys on 1 animation curve')
